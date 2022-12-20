@@ -10,15 +10,19 @@ SMTO_NOTIMEOUTIFNOTHUNG = 0x0008
 
 flags = SMTO_BLOCK | SMTO_ABORTIFHUNG | SMTO_NOTIMEOUTIFNOTHUNG
 
-def safe_attach_function(win32_func, *args)
-  attach_function(win32_func.to_sym, *args)
-rescue FFI::NotFoundError
-  define_method(win32_func.to_sym) do |*margs|
-    raise "not implemented"
+module MyFFI
+  extend FFI::Library
+
+  def self.safe_attach_function(win32_func, *args)
+    attach_function(win32_func.to_sym, *args)
+  rescue FFI::NotFoundError
+    define_method(win32_func.to_sym) do |*margs|
+      raise "not implemented"
+    end
   end
 end
-safe_attach_function :SendMessageTimeoutW, %i{HWND UINT WPARAM LPARAM UINT UINT PDWORD_PTR}, :LRESULT
-safe_attach_function :SendMessageTimeoutA, %i{HWND UINT WPARAM LPARAM UINT UINT PDWORD_PTR}, :LRESULT
 
+MyFFI.safe_attach_function :SendMessageTimeoutW, %i{HWND UINT WPARAM LPARAM UINT UINT PDWORD_PTR}, :LRESULT
+MyFFI.safe_attach_function :SendMessageTimeoutA, %i{HWND UINT WPARAM LPARAM UINT UINT PDWORD_PTR}, :LRESULT
 
 SendMessageTimeoutA(HWND_BROADCAST, WM_SETTINGCHANGE, 0, FFI::MemoryPointer.from_string("Environment").address, flags, 5000, nil)
