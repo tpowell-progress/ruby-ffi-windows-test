@@ -1,6 +1,7 @@
 require 'ffi'
 require 'ffi/types'
 
+=begin
 TypeDefs.merge!({
                   :HANDLE => Type::ULONG,
                   :HDC => Type::ULONG,
@@ -25,6 +26,12 @@ TypeDefs.merge!({
                   # :WCHAR => Type::STRING,
                   # ... more
                 }) if RUBY_PLATFORM =~ /win/i || RUBY_PLATFORM =~ /ming/i
+=end
+
+FFI.type(:UWND, :ulong)
+
+module FFI
+  module Types
 
 # see: http://msdn.microsoft.com/en-us/library/ms682653%28VS.85%29.aspx
 #
