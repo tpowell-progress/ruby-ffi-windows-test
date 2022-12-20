@@ -1,6 +1,31 @@
 require 'ffi'
 require 'ffi/types'
 
+TypeDefs.merge!({
+                  :HANDLE => Type::ULONG,
+                  :HDC => Type::ULONG,
+                  :HINSTANCE => Type::ULONG,
+                  :HWND => Type::ULONG,
+
+                  :ATOM => Type::USHORT,
+                  :BOOL => Type::INT,
+                  :BYTE => Type::UCHAR,
+                  :DWORD => Type::UINT,
+
+                  :LPCSTR => Type::STRING,
+                  :LPSTR => Type::STRING,
+                  :LPVOID => Type::POINTER,
+
+                  :WPARAM => Type::UINT,
+                  :LPARAM => Type::UINT,
+
+                  # :LPWSTR =>,
+                  # :LPCWSTR =>,
+                  # :WINBOOL =>,
+                  # :WCHAR => Type::STRING,
+                  # ... more
+                }) if RUBY_PLATFORM =~ /win/i || RUBY_PLATFORM =~ /ming/i
+
 # see: http://msdn.microsoft.com/en-us/library/ms682653%28VS.85%29.aspx
 #
 HWND_BROADCAST = 0xffff
