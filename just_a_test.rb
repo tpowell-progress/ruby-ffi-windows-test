@@ -30,8 +30,6 @@ TypeDefs.merge!({
 
 FFI.type(:UWND, :ulong)
 
-module FFI
-  module Types
 
 # see: http://msdn.microsoft.com/en-us/library/ms682653%28VS.85%29.aspx
 #
